@@ -6,7 +6,7 @@ import Menu from './MenuComponent';
 import Footer from './FooterComponent'
 import Home from './HomeComponent';
 import DishdetailComponent from './DishdetailComponent';
-import Contact from './ConcatComponent';
+import Contact from './ContactComponent';
 import About from './AboutComponent'
 import { DISHES } from '../shared/Dishes'
 import { PROMOTIONS } from '../shared/promotions'
