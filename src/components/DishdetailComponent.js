@@ -3,7 +3,7 @@ import {
     Card, CardImg, CardBody,
     CardText, CardTitle,
     Breadcrumb, BreadcrumbItem,
-    Form, Row, Col, Input, FormGroup,
+    Row, Col,
     Label,
     Button,
     Modal, ModalHeader, ModalBody,
@@ -11,7 +11,7 @@ import {
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent';
-
+import { baseUrl } from '../shared/baseUrl';
 
 function RenderDish({ dish }) {
 
@@ -19,7 +19,7 @@ function RenderDish({ dish }) {
         return (
 
             <Card>
-                <CardImg top src={dish.image} alt={dish.name} />
+                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
                 <CardBody>
                     <CardTitle>{dish.name}</CardTitle>
                     <CardText>{dish.description}</CardText>

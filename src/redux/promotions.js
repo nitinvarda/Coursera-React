@@ -1,8 +1,33 @@
-import { PROMOTIONS } from '../shared/promotions';
+import * as ActionTypes from './ActionTypes';
 
 
-export const Promotions = (state = PROMOTIONS, action) => {
+const initialState = {
+    isLoading: false,
+    errMess: null,
+    promotions: []
+
+}
+
+export const Promotions = (state = initialState, action) => {
     switch (action.type) {
+        case ActionTypes.PROMOS_LOADING:
+            return {
+                ...state,
+                isLoading: true
+            }
+        case ActionTypes.ADD_PROMOS:
+            return {
+                ...state,
+                promotions: action.payload,
+                isLoading: false
+            }
+        case ActionTypes.PROMOS_FAILED:
+            return {
+                ...state,
+
+                errMess: action.payload
+
+            }
         default:
             return state;
     }

@@ -23,6 +23,7 @@ export const Dishes = (state = initialState, action) => {
         case ActionTypes.DISHES_FAILED:
             return {
                 ...state,
+
                 errMess: action.payload
 
             }
