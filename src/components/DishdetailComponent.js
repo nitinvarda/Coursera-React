@@ -10,7 +10,7 @@ import {
 } from 'reactstrap';
 import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom'
-
+import Loading from './LoadingComponent';
 
 
 function RenderDish({ dish }) {
@@ -51,8 +51,9 @@ class CommentForm extends Component {
 
     handleSubmit(values) {
 
-        alert("submitted values are" + JSON.stringify(values))
+
         this.props.toggleModal();
+        this.props.addComment(this.props.dishId, values.rating, values.name, values.message)
     }
 
     render() {
@@ -145,7 +146,7 @@ class RenderComments extends Component {
                             )
                         })
                     }
-                    <CommentForm isModalOpen={this.state.isModalOpen} toggleModal={this.toggleModal} />
+                    <CommentForm isModalOpen={this.state.isModalOpen} toggleModal={this.toggleModal} dishId={this.props.dishId} addComment={this.props.addComment} />
                     <Button outline color="secondary" value="submit comment" onClick={this.toggleModal}  ><i class="fa fa-pencil "></i> Submit Comment</Button>
 
                 </div>
@@ -162,9 +163,31 @@ class RenderComments extends Component {
 
 
 
-const Dishdetail = ({ dish, comments }) => {
-    if (dish != null && comments != null) {
-        console.log(comments, dish)
+const Dishdetail = ({ dish, comments, addComment, isLoading, errMess }) => {
+    if (isLoading) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <Loading />
+
+                </div>
+
+            </div>
+        )
+    }
+    else if (errMess) {
+        return (
+            <div className="container">
+                <div className="row">
+                    <h4>{errMess}</h4>
+
+                </div>
+
+            </div>
+        )
+    }
+    else if (dish != null && comments != null) {
+
         return (
             <div className="container">
                 <div className="row">
@@ -187,7 +210,7 @@ const Dishdetail = ({ dish, comments }) => {
                     </div>
                     <div className=" col-12 col-md-5">
                         <h4>Comments</h4>
-                        <RenderComments comments={comments} />
+                        <RenderComments comments={comments} addComment={addComment} dishId={dish.id} />
                     </div>
 
                 </div>
