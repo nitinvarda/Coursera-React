@@ -53,7 +53,7 @@ class CommentForm extends Component {
 
 
         this.props.toggleModal();
-        this.props.addComment(this.props.dishId, values.rating, values.name, values.message)
+        this.props.postComment(this.props.dishId, values.rating, values.name, values.message)
     }
 
     render() {
@@ -146,7 +146,7 @@ class RenderComments extends Component {
                             )
                         })
                     }
-                    <CommentForm isModalOpen={this.state.isModalOpen} toggleModal={this.toggleModal} dishId={this.props.dishId} addComment={this.props.addComment} />
+                    <CommentForm isModalOpen={this.state.isModalOpen} toggleModal={this.toggleModal} dishId={this.props.dishId} postComment={this.props.postComment} />
                     <Button outline color="secondary" value="submit comment" onClick={this.toggleModal}  ><i class="fa fa-pencil "></i> Submit Comment</Button>
 
                 </div>
@@ -163,7 +163,7 @@ class RenderComments extends Component {
 
 
 
-const Dishdetail = ({ dish, comments, addComment, isLoading, errMess }) => {
+const Dishdetail = ({ dish, comments, postComment, isLoading, errMess }) => {
     if (isLoading) {
         return (
             <div className="container">
@@ -210,7 +210,7 @@ const Dishdetail = ({ dish, comments, addComment, isLoading, errMess }) => {
                     </div>
                     <div className=" col-12 col-md-5">
                         <h4>Comments</h4>
-                        <RenderComments comments={comments} addComment={addComment} dishId={dish.id} />
+                        <RenderComments comments={comments} postComment={postComment} dishId={dish.id} />
                     </div>
 
                 </div>
