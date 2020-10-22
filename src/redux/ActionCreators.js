@@ -4,6 +4,10 @@ import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
 
+
+
+
+// post comment
 export const addComment = (comment) => ({
 
     type: ActionTypes.ADD_COMMENT,
@@ -50,6 +54,62 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
         .catch(error => console.log("post comments" + error))
 
 }
+
+// post feedback
+
+export const postFeedback = (firstname, lastname, telnum, email, agree, contactType, message) => (dispatch) => {
+    const values = {
+        firstname: firstname,
+        lastname: lastname,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        contactType: contactType,
+        message: message
+
+    }
+
+
+
+    values.date = new Date().toISOString()
+
+
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(values),
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        credentials: 'same-origin'
+
+    })
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ": " + response.statusText)
+                error.response = response;
+                throw error
+            }
+        },
+            error => {
+                var errmess = new Error(error.message)
+                throw errmess
+            })
+        .then(response => response.json())
+        .then(feedback => {
+
+            alert("Thanks for the feedback !" + JSON.stringify(feedback));
+            return feedback
+        })
+        .catch(error => console.log("post comments" + error))
+
+}
+
+
+
+
 
 // dishes
 
@@ -180,3 +240,52 @@ export const addPromos = (dishes) => ({
     payload: dishes
 
 })
+
+
+// Leaders
+export const fetchLeaders = () => (dispatch) => {
+    dispatch(leadersLoading(true));
+    return fetch(baseUrl + 'leaders')
+        .then(response => {
+            if (response.ok) {
+                return response
+            }
+            else {
+                var error = new Error('Error ' + response.status + ": " + response.statusText)
+                error.response = response;
+                throw error
+            }
+        },
+            error => {
+                var errmess = new Error(error.message)
+                throw errmess
+            })
+        .then(response => response.json())
+        .then(leaders => {
+            dispatch(addLeaders(leaders))
+        })
+        .catch(error => {
+            dispatch(leadersFailed(error))
+        })
+
+}
+
+
+export const leadersLoading = () => ({
+    type: ActionTypes.LEADERS_LOADING
+
+})
+
+export const leadersFailed = (errmess) => ({
+    type: ActionTypes.LEADERS_FAILED,
+    payload: errmess
+
+})
+
+export const addLeaders = (leaders) => ({
+    type: ActionTypes.LEADERS_SUCCESS,
+    payload: leaders
+
+})
+
+

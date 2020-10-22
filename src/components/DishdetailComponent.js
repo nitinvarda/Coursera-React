@@ -12,19 +12,21 @@ import { Control, LocalForm, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom'
 import Loading from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { FadeTransform, Fade, Stagger } from 'react-animation-components'
 
 function RenderDish({ dish }) {
 
     if (dish != null) {
         return (
-
-            <Card>
-                <CardImg top src={baseUrl + dish.image} alt={dish.name} />
-                <CardBody>
-                    <CardTitle>{dish.name}</CardTitle>
-                    <CardText>{dish.description}</CardText>
-                </CardBody>
-            </Card>
+            <FadeTransform in transformProps={{ exitTransform: 'scale(0.5) translateY(-50%)' }}>
+                <Card>
+                    <CardImg top src={baseUrl + dish.image} alt={dish.name} />
+                    <CardBody>
+                        <CardTitle>{dish.name}</CardTitle>
+                        <CardText>{dish.description}</CardText>
+                    </CardBody>
+                </Card>
+            </FadeTransform>
 
         )
     }
@@ -132,20 +134,23 @@ class RenderComments extends Component {
         if (this.props.comments != null) {
             return (
                 <div>
-                    {
-                        this.props.comments.map(comment => {
+                    <Stagger in>
+                        {
+                            this.props.comments.map(comment => {
 
-                            return (
+                                return (
 
+                                    <Fade in>
+                                        <ul className="list-unstyled">
+                                            <li>{comment.comment}</li>
+                                            <p>-- {comment.author} , {comment.date.substring(0, 10)}</p>
+                                        </ul>
+                                    </Fade>
 
-                                <ul className="list-unstyled">
-                                    <li>{comment.comment}</li>
-                                    <p>-- {comment.author} , {comment.date.substring(0, 10)}</p>
-                                </ul>
-
-                            )
-                        })
-                    }
+                                )
+                            })
+                        }
+                    </Stagger>
                     <CommentForm isModalOpen={this.state.isModalOpen} toggleModal={this.toggleModal} dishId={this.props.dishId} postComment={this.props.postComment} />
                     <Button outline color="secondary" value="submit comment" onClick={this.toggleModal}  ><i class="fa fa-pencil "></i> Submit Comment</Button>
 
